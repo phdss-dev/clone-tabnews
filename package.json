@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next dev",
+    "dev": "npm run compose:up && next dev",
+    "compose:up": "docker compose -f infra/compose.yml up -d",
+    "compose:stop": "docker compose -f infra/compose.yml stop",
+    "compose:down": "docker compose -f infra/compose.yml down",
     "lint:fix": "prettier --write .",
     "lint:check": "prettier --check .",
     "test": "jest",
