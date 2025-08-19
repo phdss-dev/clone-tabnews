@@ -1,7 +1,7 @@
 import { Client } from "pg";
 
 async function query(queryObject) {
-  const client = null;
+  let client = null;
   if (process.env.NODE_ENV === "development") {
     client = new Client({
       user: process.env.POSTGRES_USER,
