@@ -9,9 +9,30 @@ async function query(queryObject) {
     port: process.env.POSTGRES_PORT,
   });
 
-  await client.connect();
-  const result = await client.query(queryObject);
-  await client.end();
+  const ssl = process.env.NODE_ENV === "production" && {
+    rejectUnauthorized: true,
+    ca: process.env.POSTGRES_SSL_CA,
+  };
+
+  if (ssl) {
+    client.ssl = ssl;
+  }
+
+  let result = null;
+
+  try {
+    await client.connect();
+  } catch (error) {
+    console.error("Database connection error:", error);
+  }
+
+  try {
+    result = await client.query(queryObject);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    await client.end();
+  }
   return result;
 }
 
