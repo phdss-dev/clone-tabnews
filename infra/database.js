@@ -19,9 +19,7 @@ async function query(queryObject) {
       port: process.env.POSTGRES_PORT,
       ssl: {
         rejectUnauthorized: true,
-        ca: Buffer.from(process.env.POSTGRES_SSL_CA, "base64").toString(
-          "utf-8",
-        ),
+        ca: process.env.POSTGRES_SSL_CA,
       },
     });
   }
