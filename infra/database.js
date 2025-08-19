@@ -11,7 +11,7 @@ async function query(queryObject) {
 
   const ssl = process.env.NODE_ENV === "production" && {
     rejectUnauthorized: true,
-    ca: process.env.POSTGRES_SSL_CA,
+    ca: Buffer.from(process.env.POSTGRES_SSL_CA, "base64").toString("utf-8"),
   };
 
   if (ssl) {
