@@ -1,29 +1,20 @@
 import { Client } from "pg";
 
 async function query(queryObject) {
-  let client = null;
-  if (process.env.NODE_ENV === "development") {
-    client = new Client({
-      user: process.env.POSTGRES_USER,
-      host: process.env.POSTGRES_HOST,
-      database: process.env.POSTGRES_DB,
-      password: process.env.POSTGRES_PASSWORD,
-      port: process.env.POSTGRES_PORT,
-    });
-  } else {
-    client = new Client({
-      user: process.env.POSTGRES_USER,
-      host: process.env.POSTGRES_HOST,
-      database: process.env.POSTGRES_DB,
-      password: process.env.POSTGRES_PASSWORD,
-      port: process.env.POSTGRES_PORT,
-      ssl: {
-        rejectUnauthorized: true,
-        ca: process.env.POSTGRES_SSL_CA,
-      },
-    });
-  }
-
+  const client = new Client({
+    user: process.env.POSTGRES_USER,
+    host: process.env.POSTGRES_HOST,
+    database: process.env.POSTGRES_DB,
+    password: process.env.POSTGRES_PASSWORD,
+    port: process.env.POSTGRES_PORT,
+    ssl:
+      process.env.NODE_ENV === "development"
+        ? false
+        : {
+            rejectUnauthorized: true,
+            ca: process.env.POSTGRES_SSL_CA,
+          },
+  });
   let result = null;
 
   try {
