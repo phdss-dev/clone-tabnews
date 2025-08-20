@@ -21,13 +21,14 @@ async function query(queryObject) {
 }
 
 async function getNewClient() {
+  // console.log("process.env.DATABASE_URL:", process.env.DATABASE_URL);
   const client = new Client({
     user: process.env.POSTGRES_USER,
     host: process.env.POSTGRES_HOST,
     database: process.env.POSTGRES_DB,
     password: process.env.POSTGRES_PASSWORD,
     port: process.env.POSTGRES_PORT,
-    ssl: handleSSL(),
+    ssl: handleSSL,
   });
 
   await client.connect();
@@ -35,12 +36,7 @@ async function getNewClient() {
 }
 
 function handleSSL() {
-  return process.env.NODE_ENV === "production"
-    ? {
-        rejectUnauthorized: true,
-        ca: process.env.POSTGRES_SSL_CA,
-      }
-    : false;
+  return process.env.NODE_ENV === "production" ? true : false;
 }
 
 export default {
