@@ -21,14 +21,13 @@ async function query(queryObject) {
 }
 
 async function getNewClient() {
-  // console.log("process.env.DATABASE_URL:", process.env.DATABASE_URL);
   const client = new Client({
     user: process.env.POSTGRES_USER,
     host: process.env.POSTGRES_HOST,
     database: process.env.POSTGRES_DB,
     password: process.env.POSTGRES_PASSWORD,
     port: process.env.POSTGRES_PORT,
-    ssl: handleSSL,
+    ssl: handleSSL(),
   });
 
   await client.connect();
