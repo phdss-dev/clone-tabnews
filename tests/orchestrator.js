@@ -4,8 +4,11 @@ async function waitForAllServices() {
 
   async function waitForWebServer() {
     return retry(
-      async () => {
+      async (bail, tryNumber) => {
         const response = await fetch("http://localhost:3000/api/v1/status");
+        if (!response.ok){
+          throw Error();
+        }
         await response.json();
       },
       {
